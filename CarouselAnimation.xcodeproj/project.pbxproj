@@ -17,6 +17,8 @@
 		64A22F5E27CAA94500C7BC7E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A22F3427CAA94200C7BC7E /* ContentView.swift */; };
 		64A22F5F27CAA94500C7BC7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64A22F3527CAA94500C7BC7E /* Assets.xcassets */; };
 		64A22F6027CAA94500C7BC7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64A22F3527CAA94500C7BC7E /* Assets.xcassets */; };
+		64A22F7227CAAAEA00C7BC7E /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A22F7127CAAAEA00C7BC7E /* Home.swift */; };
+		64A22F7427CAAAF600C7BC7E /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A22F7327CAAAF600C7BC7E /* Food.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		64A22F5327CAA94500C7BC7E /* Tests macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Tests macOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64A22F5727CAA94500C7BC7E /* Tests_macOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOS.swift; sourceTree = "<group>"; };
 		64A22F5927CAA94500C7BC7E /* Tests_macOSLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests_macOSLaunchTests.swift; sourceTree = "<group>"; };
+		64A22F7127CAAAEA00C7BC7E /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		64A22F7327CAAAF600C7BC7E /* Food.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Food.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +101,8 @@
 		64A22F3227CAA94200C7BC7E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				64A22F7027CAAAD600C7BC7E /* View */,
+				64A22F6F27CAAACA00C7BC7E /* Model */,
 				64A22F3327CAA94200C7BC7E /* CarouselAnimationApp.swift */,
 				64A22F3427CAA94200C7BC7E /* ContentView.swift */,
 				64A22F3527CAA94500C7BC7E /* Assets.xcassets */,
@@ -139,6 +145,22 @@
 				64A22F5927CAA94500C7BC7E /* Tests_macOSLaunchTests.swift */,
 			);
 			path = "Tests macOS";
+			sourceTree = "<group>";
+		};
+		64A22F6F27CAAACA00C7BC7E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				64A22F7327CAAAF600C7BC7E /* Food.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		64A22F7027CAAAD600C7BC7E /* View */ = {
+			isa = PBXGroup;
+			children = (
+				64A22F7127CAAAEA00C7BC7E /* Home.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,6 +322,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				64A22F5D27CAA94500C7BC7E /* ContentView.swift in Sources */,
+				64A22F7427CAAAF600C7BC7E /* Food.swift in Sources */,
+				64A22F7227CAAAEA00C7BC7E /* Home.swift in Sources */,
 				64A22F5B27CAA94500C7BC7E /* CarouselAnimationApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
