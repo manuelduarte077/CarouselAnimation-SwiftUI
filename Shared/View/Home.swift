@@ -10,7 +10,16 @@ import SwiftUI
 struct Home: View {
     
     // MARK: Current index
-    @State var currentIndex: Food = foods[0]
+    @State var currentIndex: Int = 0
+    
+    
+    // Animation Properties
+    @State var bgOffset: CGFloat = 0
+    @State var textColor: Color = .white
+    
+    // Text & Image Animation
+    @State var animateText: Bool = false
+    @State var animateImage: Bool = false
     
     var body: some View {
         
@@ -18,10 +27,13 @@ struct Home: View {
             
             let isSmallDevice = getRect().height < 750
             
-            Text(currentIndex.itemTitle)
+            Text(foods[currentIndex].itemTitle)
                 .font(.largeTitle.bold())
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .frame(height: 100, alignment: .top)
+                .offset(y: animateText ? 200 : 0)
+                .clipped()
+                .animation(.easeInOut, value: animateText)
                 .padding(.top)
             
             // MARK: Food Details With Image
@@ -29,14 +41,14 @@ struct Home: View {
                 VStack(alignment: .leading, spacing: 25){
                     
                     Label {
-                        Text("1 Hour")
+                        Text(foods[currentIndex].itemHour)
                     } icon: {
                         Image(systemName: "flame")
                             .frame(width: 30)
                     }
                     
                     Label {
-                        Text("40")
+                        Text(foods[currentIndex].itemPrice)
                     } icon: {
                         Image(systemName: "bookmark")
                             .frame(width: 30)
@@ -73,18 +85,18 @@ struct Home: View {
                     
                     let size = proxy.size
                     
-                    Image(currentIndex.itemImage)
+                    Image(foods[currentIndex].itemImage)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .clipShape(Circle())
+                        .rotationEffect(.init(degrees: animateImage ? 360 : 0))
                     
                     // MARK: Circle semi border
                         .background(
-                            
                             Circle()
                                 .trim(from: 0.5, to: 1)
                                 .stroke(
-                                    LinearGradient(colors: [Color.white, Color.white.opacity(0.1), Color.white.opacity(0.1)], startPoint: .top, endPoint: .bottom)
+                                    LinearGradient(colors: [textColor, textColor.opacity(0.1), textColor.opacity(0.1)], startPoint: .top, endPoint: .bottom)
                                     
                                     ,lineWidth: 0.7
                                 )
@@ -103,18 +115,108 @@ struct Home: View {
                 // MARK: Food Description
                 Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum a lacus eget lorem ipsum dolor sit amet, consectetur adipiscing elit.")
                     .font(.callout)
-                    .foregroundColor(Color.gray)
+                    .foregroundColor(.gray)
                     .lineSpacing(8)
                     .lineLimit(3)
+                    .offset(y: animateText ? 200 : 0)
+                    .clipped()
+                    .animation(.easeInOut, value: animateText)
                     .padding(.vertical)
             
         }
         .padding()
-        .foregroundColor(.white)
+        .foregroundColor(textColor)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color("BG"))
+        .background(
+        
+            GeometryReader{proxy in
+                
+                
+                let height = proxy.size.height
+                
+                LazyVStack(spacing: 0){
+                    
+                    ForEach(foods.indices, id: \.self) {index in
+                        
+                        if index % 2 == 0 {
+                            Color("BG")
+                                .frame(height: height)
+                        }else{
+                            Color.white
+                                .frame(height: height)
+                        }
+                        
+                    }
+                    
+                }
+                .offset(y: bgOffset)
+            }
+            .ignoresSafeArea()
+        
+        )
+        .gesture(
+                
+            DragGesture()
+            
+                .onEnded({ value in
+                    
+                    
+                    if animateImage{return}
+                    
+                    let translation = value.translation.height
+                    
+                    if translation < 0 && -translation > 50  && (currentIndex < (foods.count - 1)) {
+                        // MARK: Swiped Up
+                        
+                        AnimatedSlide(moveUp: true)
+                        
+                    }
+                    
+                    if translation > 0 && translation > 50 && currentIndex > 0 {
+                        // MARK: Swiped Down
+                        
+                        AnimatedSlide(moveUp: false)
+                        
+                    }
+                    
+                })
+        
+        )
         
     }
+    
+    func AnimatedSlide (moveUp: Bool = true){
+        animateText = true
+        
+        withAnimation(.easeInOut(duration: 0.6)) {
+            bgOffset += (moveUp ? -getRect().height :  getRect().height)
+        }
+        
+        withAnimation(.interactiveSpring(response: 1.5, dampingFraction: 0.8, blendDuration: 0.8)){
+            animateImage = true
+        }
+        
+        // Change Text Color After Some time
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            
+            animateText = false
+            
+            // Updating Index
+            currentIndex = (moveUp ? (currentIndex + 1 ) : (currentIndex - 1 ))
+            
+            withAnimation(.easeInOut){
+                // Automatic Change
+                textColor = (textColor == .black ? .white : .black)
+            }
+            
+        }
+        
+        // Setings Back to Original State after animation Finished
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            animateImage = false
+        }
+    }
+    
 }
 
 struct Home_Previews: PreviewProvider {
